@@ -21,6 +21,33 @@ export const MESSAGES = {
   LOAD_ERROR: 'Error loading configuration',
 };
 
+// HTTP methods
+export const HTTP_METHODS = {
+  GET: 'GET',
+  POST: 'POST',
+};
+
+// HTTP status codes
+export const HTTP_STATUS = {
+  OK: 200,
+  NOT_FOUND: 404,
+};
+
+// Content types
+export const CONTENT_TYPES = {
+  JSON: 'application/json',
+  HTML: 'text/html',
+};
+
+// Storage keys
+export const STORAGE_KEYS = {
+  CONFIG: 'config',
+};
+
+// Default values
+export const DEFAULTS = {
+  EMPTY_CONFIG: '{"rules":[]}',
+};
 export const API_ENDPOINTS = {
   CONFIG: '/api/config',
 };
@@ -28,21 +55,49 @@ export const API_ENDPOINTS = {
 export const ADD_RULE_BUTTON_TEXT = 'Add New Rule';
 
 export const FINGERPRINT_PARAMS = [
+  // Request headers
+  { value: 'headers.user-agent', label: 'User Agent' },
+  { value: 'headers.accept-language', label: 'Accept Language' },
+  { value: 'headers.accept-encoding', label: 'Accept Encoding' },
+  { value: 'headers.sec-fetch-dest', label: 'Sec-Fetch-Dest' },
+  { value: 'headers.sec-fetch-mode', label: 'Sec-Fetch-Mode' },
+  { value: 'headers.sec-fetch-site', label: 'Sec-Fetch-Site' },
+  { value: 'headers.sec-fetch-user', label: 'Sec-Fetch-User' },
+
+  // URL components
+  { value: 'url.hostname', label: 'Hostname' },
+
+  // Request body
+  { value: 'body', label: 'Request Body' },
+
+  // Cloudflare-specific properties
+  { value: 'cf.asn', label: 'ASN' },
+  { value: 'cf.httpProtocol', label: 'HTTP Protocol' },
+  { value: 'user-agent', label: 'User Agent' },
   { value: 'cf.tlsVersion', label: 'TLS Version' },
   { value: 'cf.tlsCipher', label: 'TLS Cipher' },
-  { value: 'cf.ja4', label: 'JA4' },
-  { value: 'cf.asn', label: 'ASN' },
-  { value: 'user-agent', label: 'User Agent' },
+  { value: 'cf.clientTrustScore', label: 'Client Trust Score' },
+  { value: 'cf.botManagement.score', label: 'Bot Management Score' },
+  { value: 'cf.botManagement.ja3Hash', label: 'JA3 Hash' },
+  { value: 'cf.botManagement.ja4', label: 'JA4' },
+  { value: 'cf.clientAcceptEncoding', label: 'Client Accept Encoding' },
+  { value: 'cf.country', label: 'Country' },
+  { value: 'cf.city', label: 'City' },
+  { value: 'cf.continent', label: 'Continent' },
+  { value: 'cf.latitude', label: 'Latitude' },
+  { value: 'cf.longitude', label: 'Longitude' },
+  { value: 'cf.postalCode', label: 'Postal Code' },
+  { value: 'cf.region', label: 'Region' },
+  { value: 'cf.regionCode', label: 'Region Code' },
+  { value: 'cf.timezone', label: 'Timezone' },
+  { value: 'cf.tlsClientHelloLength', label: 'TLS Client Hello Length' },
+  { value: 'cf.tlsExportedAuthenticator.clientHandshake', label: 'TLS Client Handshake' },
+  { value: 'cf.tlsExportedAuthenticator.clientFinished', label: 'TLS Client Finished' },
   { value: 'cf-device-type', label: 'Device Type' },
   { value: 'cf.tlsClientRandom', label: 'TLS Client Random' },
   { value: 'cf.tlsClientHelloLength', label: 'TLS Client Hello Length' },
   { value: 'cf.tlsExportedAuthenticator.clientFinished', label: 'TLS Client Finished' },
   { value: 'cf.tlsExportedAuthenticator.clientHandshake', label: 'TLS Client Handshake' },
-  { value: 'cf.botManagement.score', label: 'Bot Score' },
-  { value: 'cf.botManagement.staticResource', label: 'Static Resource' },
-  { value: 'cf.botManagement.verifiedBot', label: 'Verified Bot' },
-  { value: 'cf.clientAcceptEncoding', label: 'Client Accept Encoding' },
-  { value: 'cf.httpProtocol', label: 'HTTP Protocol' },
 ];
 
 export const FINGERPRINT_TOOLTIPS = {
