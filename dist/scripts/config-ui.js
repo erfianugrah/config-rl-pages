@@ -4,6 +4,9 @@ import { loadConfiguration } from './config-loader.js';
 import { API_ENDPOINTS, MESSAGES } from './config-variables.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize currentRules as an empty array
+  window.currentRules = [];
+
   initializeUI();
 
   // Load existing configuration

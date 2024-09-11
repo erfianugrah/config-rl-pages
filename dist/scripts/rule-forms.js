@@ -13,7 +13,7 @@ import { ADD_RULE_BUTTON_TEXT } from './config-variables.js';
 import { createRuleModal } from './rule-modal.js';
 
 export function createRuleForm(rule = {}, editIndex = null) {
-  const ruleIndex = editIndex !== null ? editIndex : currentRules.length;
+  const ruleIndex = editIndex !== null ? editIndex : window.currentRules.length;
   const ruleForm = document.createElement('div');
   ruleForm.className = 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4';
   ruleForm.setAttribute('data-id', ruleIndex);
