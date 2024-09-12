@@ -21,41 +21,36 @@ export const MESSAGES = {
   LOAD_ERROR: 'Error loading configuration',
 };
 
-// HTTP methods
 export const HTTP_METHODS = {
   GET: 'GET',
   POST: 'POST',
 };
 
-// HTTP status codes
 export const HTTP_STATUS = {
   OK: 200,
   NOT_FOUND: 404,
 };
 
-// Content types
 export const CONTENT_TYPES = {
   JSON: 'application/json',
   HTML: 'text/html',
 };
 
-// Storage keys
 export const STORAGE_KEYS = {
   CONFIG: 'config',
 };
 
-// Default values
 export const DEFAULTS = {
   EMPTY_CONFIG: '{"rules":[]}',
 };
+
 export const API_ENDPOINTS = {
   CONFIG: '/api/config',
 };
 
 export const ADD_RULE_BUTTON_TEXT = 'Add New Rule';
 
-export const FINGERPRINT_PARAMS = [
-  // Request headers
+const COMMON_FIELDS = [
   { value: 'headers.user-agent', label: 'User Agent' },
   { value: 'headers.accept-language', label: 'Accept Language' },
   { value: 'headers.accept-encoding', label: 'Accept Encoding' },
@@ -63,117 +58,98 @@ export const FINGERPRINT_PARAMS = [
   { value: 'headers.sec-fetch-mode', label: 'Sec-Fetch-Mode' },
   { value: 'headers.sec-fetch-site', label: 'Sec-Fetch-Site' },
   { value: 'headers.sec-fetch-user', label: 'Sec-Fetch-User' },
-
-  // URL components
-  { value: 'url.hostname', label: 'Hostname' },
-
-  // Request body
-  { value: 'body', label: 'Request Body' },
-
-  // Cloudflare-specific properties
+  { value: 'headers.dnt', label: 'Do Not Track' },
+  { value: 'headers.sec-gpc', label: 'Global Privacy Control' },
   { value: 'cf.asn', label: 'ASN' },
   { value: 'cf.httpProtocol', label: 'HTTP Protocol' },
-  { value: 'user-agent', label: 'User Agent' },
   { value: 'cf.tlsVersion', label: 'TLS Version' },
   { value: 'cf.tlsCipher', label: 'TLS Cipher' },
   { value: 'cf.clientTrustScore', label: 'Client Trust Score' },
-  { value: 'cf.botManagement.score', label: 'Bot Management Score' },
-  { value: 'cf.botManagement.ja3Hash', label: 'JA3 Hash' },
-  { value: 'cf.botManagement.ja4', label: 'JA4' },
+  { value: 'cf.botManagement.score', label: 'Bot Score' },
+  { value: 'cf.botManagement.staticResource', label: 'Bot Management - Static Resource' },
+  { value: 'cf.botManagement.verifiedBot', label: 'Verified Bot' },
   { value: 'cf.clientAcceptEncoding', label: 'Client Accept Encoding' },
   { value: 'cf.country', label: 'Country' },
   { value: 'cf.city', label: 'City' },
   { value: 'cf.continent', label: 'Continent' },
-  { value: 'cf.latitude', label: 'Latitude' },
-  { value: 'cf.longitude', label: 'Longitude' },
   { value: 'cf.postalCode', label: 'Postal Code' },
   { value: 'cf.region', label: 'Region' },
   { value: 'cf.regionCode', label: 'Region Code' },
   { value: 'cf.timezone', label: 'Timezone' },
-  { value: 'cf.tlsClientHelloLength', label: 'TLS Client Hello Length' },
-  { value: 'cf.tlsExportedAuthenticator.clientHandshake', label: 'TLS Client Handshake' },
-  { value: 'cf.tlsExportedAuthenticator.clientFinished', label: 'TLS Client Finished' },
-  { value: 'cf-device-type', label: 'Device Type' },
-  { value: 'cf.tlsClientRandom', label: 'TLS Client Random' },
-  { value: 'cf.tlsClientHelloLength', label: 'TLS Client Hello Length' },
-  { value: 'cf.tlsExportedAuthenticator.clientFinished', label: 'TLS Client Finished' },
-  { value: 'cf.tlsExportedAuthenticator.clientHandshake', label: 'TLS Client Handshake' },
+  { value: 'cf.asOrganization', label: 'AS Organization' },
+  { value: 'cf.colo', label: 'Colo' },
+  { value: 'cf.clientTcpRtt', label: 'Client TCP RTT' },
+  { value: 'cf.edgeRequestKeepAliveStatus', label: 'Edge Request Keep Alive Status' },
+  { value: 'cf.httpProtocol', label: 'HTTP Protocol' },
+  { value: 'cf.tlsClientAuth.certPresented', label: 'TLS Client Cert Presented' },
+  { value: 'cf.tlsClientAuth.certVerified', label: 'TLS Client Cert Verified' },
+  { value: 'cf.tlsClientAuth.certRevoked', label: 'TLS Client Cert Revoked' },
+  { value: 'cf.tlsClientAuth.certIssuerDNLegacy', label: 'TLS Client Cert Issuer DN Legacy' },
+  { value: 'cf.tlsClientAuth.certSubjectDNRFC2253', label: 'TLS Client Cert Subject DN RFC2253' },
+  { value: 'cf.tlsClientAuth.certNotBefore', label: 'TLS Client Cert Not Before' },
+  { value: 'cf.tlsClientAuth.certNotAfter', label: 'TLS Client Cert Not After' },
+  { value: 'cf.tlsClientAuth.certSerial', label: 'TLS Client Cert Serial' },
+  { value: 'cf.tlsClientAuth.certPresented', label: 'TLS Client Cert Presented' },
+  { value: 'cf.tlsClientAuth.certRevoked', label: 'TLS Client Cert Revoked' },
 ];
 
-export const FINGERPRINT_TOOLTIPS = {
-  'cf.tlsVersion': 'The TLS version used for the connection',
-  'cf.tlsCipher': 'The cipher suite used for the TLS connection',
-  'cf.ja4': 'JA4 fingerprint, similar to JA3 but more comprehensive',
-  'cf.asn': 'Autonomous System Number of the client',
-  'user-agent': 'User agent string from the client',
-  'cf-device-type': 'Type of device (desktop, mobile, etc.)',
-  'cf.tlsClientRandom': '32-byte random value provided by the client in TLS handshake',
-  'cf.tlsClientHelloLength': 'Length of the client hello message in TLS handshake',
-  'cf.tlsExportedAuthenticator.clientFinished': 'TLS exported authenticator for client finished',
-  'cf.tlsExportedAuthenticator.clientHandshake': 'TLS exported authenticator for client handshake',
-  'cf.botManagement.score': 'Bot score from Cloudflare Bot Management',
-  'cf.botManagement.staticResource': 'Indicates if the request is for a static resource',
-  'cf.botManagement.verifiedBot': 'Indicates if the request is from a verified bot',
-  'cf.clientAcceptEncoding': 'Accept-Encoding header from the client',
-  'cf.httpProtocol': 'HTTP protocol version used for the request',
-};
-
-export const REQUEST_MATCH_FIELDS = [
-  // Request interface
+export const FINGERPRINT_PARAMS = [
   { value: 'method', label: 'HTTP Method' },
   { value: 'url', label: 'Full URL' },
   { value: 'headers', label: 'Headers' },
   { value: 'body', label: 'Request Body' },
-
-  // URL interface
   { value: 'url.protocol', label: 'URL Protocol' },
   { value: 'url.hostname', label: 'URL Hostname' },
   { value: 'url.port', label: 'URL Port' },
   { value: 'url.pathname', label: 'URL Path' },
   { value: 'url.search', label: 'URL Query String' },
   { value: 'url.hash', label: 'URL Fragment' },
-
-  // Common headers
   { value: 'headers.accept', label: 'Accept Header' },
-  { value: 'headers.accept-encoding', label: 'Accept-Encoding Header' },
-  { value: 'headers.accept-language', label: 'Accept-Language Header' },
-  { value: 'headers.user-agent', label: 'User-Agent Header' },
   { value: 'headers.cookie', label: 'Cookie Header' },
-  { value: 'headers.dnt', label: 'DNT Header' },
-  { value: 'headers.sec-fetch-dest', label: 'Sec-Fetch-Dest Header' },
-  { value: 'headers.sec-fetch-mode', label: 'Sec-Fetch-Mode Header' },
-  { value: 'headers.sec-fetch-site', label: 'Sec-Fetch-Site Header' },
-  { value: 'headers.sec-fetch-user', label: 'Sec-Fetch-User Header' },
-
-  // Cloudflare-specific properties
-  { value: 'cf.asn', label: 'ASN (CF)' },
-  { value: 'cf.asOrganization', label: 'AS Organization (CF)' },
-  { value: 'cf.botManagement.score', label: 'Bot Score (CF)' },
-  { value: 'cf.botManagement.verifiedBot', label: 'Verified Bot (CF)' },
-  { value: 'cf.botManagement.staticResource', label: 'Static Resource (CF)' },
-  { value: 'cf.botManagement.ja3Hash', label: 'JA3 Hash (CF)' },
-  { value: 'cf.botManagement.ja4', label: 'JA4 (CF)' },
-  { value: 'cf.clientAcceptEncoding', label: 'Client Accept Encoding (CF)' },
-  { value: 'cf.colo', label: 'Colo (CF)' },
-  { value: 'cf.country', label: 'Country (CF)' },
-  { value: 'cf.city', label: 'City (CF)' },
-  { value: 'cf.continent', label: 'Continent (CF)' },
-  { value: 'cf.latitude', label: 'Latitude (CF)' },
-  { value: 'cf.longitude', label: 'Longitude (CF)' },
-  { value: 'cf.postalCode', label: 'Postal Code (CF)' },
-  { value: 'cf.region', label: 'Region (CF)' },
-  { value: 'cf.regionCode', label: 'Region Code (CF)' },
-  { value: 'cf.timezone', label: 'Timezone (CF)' },
-  { value: 'cf.httpProtocol', label: 'HTTP Protocol (CF)' },
-  { value: 'cf.tlsVersion', label: 'TLS Version (CF)' },
-  { value: 'cf.tlsCipher', label: 'TLS Cipher (CF)' },
-  { value: 'cf.clientTrustScore', label: 'Client Trust Score (CF)' },
-  { value: 'cf.requestPriority', label: 'Request Priority (CF)' },
-  { value: 'cf.tlsClientAuth', label: 'TLS Client Auth (CF)' },
-  { value: 'cf.edgeRequestKeepAliveStatus', label: 'Edge Request Keep Alive Status (CF)' },
-  { value: 'cf.tlsClientHelloLength', label: 'TLS Client Hello Length (CF)' },
-  { value: 'cf.tlsExportedAuthenticator', label: 'TLS Exported Authenticator (CF)' },
+  ...COMMON_FIELDS,
 ];
+
+export const REQUEST_MATCH_FIELDS = [
+  { value: 'method', label: 'HTTP Method' },
+  { value: 'url', label: 'Full URL' },
+  { value: 'headers', label: 'Headers' },
+  { value: 'body', label: 'Request Body' },
+  { value: 'url.protocol', label: 'URL Protocol' },
+  { value: 'url.hostname', label: 'URL Hostname' },
+  { value: 'url.port', label: 'URL Port' },
+  { value: 'url.pathname', label: 'URL Path' },
+  { value: 'url.search', label: 'URL Query String' },
+  { value: 'url.hash', label: 'URL Fragment' },
+  { value: 'headers.accept', label: 'Accept Header' },
+  { value: 'headers.cookie', label: 'Cookie Header' },
+  ...COMMON_FIELDS,
+];
+
+export const FINGERPRINT_TOOLTIPS = {
+  'cf.tlsVersion': 'The TLS version used for the connection',
+  'cf.tlsCipher': 'The cipher suite used for the TLS connection',
+  'cf.asn': 'Autonomous System Number of the client',
+  'headers.user-agent': 'User agent string from the client',
+  'cf.httpProtocol': 'HTTP protocol version used for the request',
+  'cf.clientTrustScore': "Cloudflare's trust score for the client",
+  'cf.botManagement.score': 'Bot score from Cloudflare Bot Management',
+  'cf.botManagement.staticResource': 'Indicates if the request is for a static resource',
+  'cf.botManagement.verifiedBot': 'Indicates if the request is from a verified bot',
+  'cf.clientAcceptEncoding': 'Accept-Encoding header from the client',
+  'headers.sec-fetch-dest': 'Sec-Fetch-Dest header from the client',
+  'headers.sec-fetch-mode': 'Sec-Fetch-Mode header from the client',
+  'headers.sec-fetch-site': 'Sec-Fetch-Site header from the client',
+  'headers.sec-fetch-user': 'Sec-Fetch-User header from the client',
+  'headers.dnt': 'Do Not Track header from the client',
+  'headers.sec-gpc': 'Global Privacy Control header from the client',
+  'cf.asOrganization': 'Organization associated with the ASN',
+  'cf.colo': 'Cloudflare data center that handled the request',
+  'cf.clientTcpRtt': 'Round-trip time for the TCP connection',
+  'cf.edgeRequestKeepAliveStatus': 'Status of the keep-alive connection from the edge',
+  'cf.tlsClientAuth.certPresented': 'Whether the client presented a TLS certificate',
+  'cf.tlsClientAuth.certVerified': 'Whether the presented client certificate was verified',
+  'cf.tlsClientAuth.certRevoked': 'Whether the presented client certificate was revoked',
+};
 
 export const REQUEST_MATCH_OPERATORS = [
   { value: 'eq', label: 'Equals' },

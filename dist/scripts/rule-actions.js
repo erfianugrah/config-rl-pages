@@ -3,6 +3,7 @@ import { FINGERPRINT_TOOLTIPS } from './config-variables.js';
 import { createRuleForm } from './rule-forms.js';
 import { saveConfiguration } from './config-saver.js';
 import { updateRuleModals } from './rule-forms.js';
+import { updateActionFields } from './action-utils.js';
 
 export function viewRule(rule) {
   const viewModal = document.createElement('div');

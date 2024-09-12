@@ -1,5 +1,5 @@
 name = "rate-limiter-ui"
-compatibility_date = "2024-09-10"
+compatibility_date = "2024-08-21"
 
 # This is required for Pages projects
 pages_build_output_dir = "./dist"

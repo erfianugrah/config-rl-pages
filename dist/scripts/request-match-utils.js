@@ -1,13 +1,6 @@
 // request-match-utils.js
 import { LABELS, REQUEST_MATCH_FIELDS, REQUEST_MATCH_OPERATORS } from './config-variables.js';
 
-export function addCondition(ruleIndex) {
-  const conditionsContainer = document.getElementById(`requestMatchConditions${ruleIndex}`);
-  const newConditionIndex = conditionsContainer.children.length;
-  const newConditionHTML = createConditionFields(ruleIndex, newConditionIndex);
-  conditionsContainer.insertAdjacentHTML('beforeend', newConditionHTML);
-}
-
 export function createConditionFields(ruleIndex, conditionIndex, condition = {}) {
   return `
     <div class="grid grid-cols-3 gap-4 mb-4" id="condition${ruleIndex}_${conditionIndex}">
@@ -50,5 +43,9 @@ export function createConditionFields(ruleIndex, conditionIndex, condition = {})
   `;
 }
 
-window.addCondition = addCondition;
-window.createConditionFields = createConditionFields;
+export function addCondition(ruleIndex) {
+  const conditionsContainer = document.getElementById(`requestMatchConditions${ruleIndex}`);
+  const newConditionIndex = conditionsContainer.children.length;
+  const newConditionHTML = createConditionFields(ruleIndex, newConditionIndex);
+  conditionsContainer.insertAdjacentHTML('beforeend', newConditionHTML);
+}

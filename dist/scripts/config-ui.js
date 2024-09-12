@@ -2,6 +2,7 @@
 import { initializeUI } from './ui-initializer.js';
 import { loadConfiguration } from './config-loader.js';
 import { API_ENDPOINTS, MESSAGES } from './config-variables.js';
+import './global-functions.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize currentRules as an empty array

@@ -23,5 +23,3 @@ export function updateActionFields(ruleIndex, actionType) {
 
   actionFields.innerHTML = fieldsHTML;
 }
-
-window.updateActionFields = updateActionFields;

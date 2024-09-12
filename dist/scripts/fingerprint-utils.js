@@ -26,6 +26,3 @@ export function addToList(list, value, ruleIndex) {
   item.querySelector('span').onmouseenter = () => tooltip.classList.remove('hidden');
   item.querySelector('span').onmouseleave = () => tooltip.classList.add('hidden');
 }
-
-window.addFingerprint = addFingerprint;
-window.addToList = addToList;
