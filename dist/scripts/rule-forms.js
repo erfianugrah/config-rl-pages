@@ -13,9 +13,9 @@ import { updateActionFields } from './action-utils.js';
 import { createRuleModal } from './rule-modal.js';
 
 export function createRuleForm(rule = {}, editIndex = null) {
-  console.log('Creating rule form with rule:', rule, 'and editIndex:', editIndex);
+  // console.log('Creating rule form with rule:', rule, 'and editIndex:', editIndex);
   const ruleIndex = editIndex !== null ? editIndex : window.currentRules.length;
-  console.log('Rule index:', ruleIndex);
+  // console.log('Rule index:', ruleIndex);
 
   const ruleForm = document.createElement('div');
   ruleForm.className = 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4';
@@ -97,7 +97,7 @@ export function createRuleForm(rule = {}, editIndex = null) {
   `;
   document.getElementById('rulesContainer').appendChild(ruleForm);
 
-  console.log('Rule form HTML:', ruleForm.innerHTML);
+  // console.log('Rule form HTML:', ruleForm.innerHTML);
 
   // Populate request match conditions
   const conditionsContainer = document.getElementById(`requestMatchConditions${ruleIndex}`);
@@ -112,7 +112,7 @@ export function createRuleForm(rule = {}, editIndex = null) {
     }
   }
 
-  console.log('Conditions:', conditions);
+  // console.log('Conditions:', conditions);
 
   if (conditions.length > 0) {
     conditions.forEach((condition, index) => {
@@ -148,11 +148,11 @@ export function createRuleForm(rule = {}, editIndex = null) {
     updateActionFields(ruleIndex, 'rateLimit');
   }
 
-  console.log('Finished creating rule form');
+  // console.log('Finished creating rule form');
 }
 
 function createConditionFields(ruleIndex, conditionIndex, condition = {}) {
-  console.log('Creating condition fields:', { ruleIndex, conditionIndex, condition });
+  // console.log('Creating condition fields:', { ruleIndex, conditionIndex, condition });
   return `
     <div class="grid grid-cols-3 gap-4 mb-4" id="condition${ruleIndex}_${conditionIndex}">
       <div>
@@ -195,7 +195,7 @@ function createConditionFields(ruleIndex, conditionIndex, condition = {}) {
 }
 
 export function updateRuleModals() {
-  console.log('Updating rule modals');
+  // console.log('Updating rule modals');
   const container = document.getElementById('ruleModals');
   container.className = 'flex flex-col space-y-4 mb-8';
   container.innerHTML = '';
@@ -207,7 +207,7 @@ export function updateRuleModals() {
   addNewRuleButton.className =
     'bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200 mb-4';
   addNewRuleButton.textContent = ADD_RULE_BUTTON_TEXT;
-  console.log('Finished updating rule modals');
+  // console.log('Finished updating rule modals');
 }
 
 window.updateRuleModals = updateRuleModals;
