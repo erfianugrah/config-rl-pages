@@ -5,6 +5,7 @@ import {
   removeCondition,
   removeConditionGroup,
 } from './request-match-utils.js';
+import { updateRuleModals } from './rule-forms.js';
 import { addFingerprint } from './fingerprint-utils.js';
 import { updateActionFields } from './action-utils.js';
 
