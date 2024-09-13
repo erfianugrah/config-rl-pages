@@ -235,13 +235,3 @@ export function initializeRuleForm() {
   };
   console.log('Rule form initialized');
 }
-
-// Ensure these functions are available globally
-window.addCondition = addCondition;
-window.addConditionGroup = addConditionGroup;
-window.addConditionToGroup = addConditionToGroup;
-window.removeCondition = removeCondition;
-window.removeConditionGroup = removeConditionGroup;
-window.updateRuleModals = updateRuleModals;
-
-console.log('All functions exported and made globally available');

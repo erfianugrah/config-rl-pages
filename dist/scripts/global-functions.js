@@ -14,5 +14,6 @@ window.addConditionGroup = addConditionGroup;
 window.addConditionToGroup = addConditionToGroup;
 window.removeCondition = removeCondition;
 window.removeConditionGroup = removeConditionGroup;
+window.updateRuleModals = updateRuleModals;
 window.addFingerprint = addFingerprint;
 window.updateActionFields = updateActionFields;
