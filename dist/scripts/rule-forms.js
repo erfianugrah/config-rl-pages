@@ -1,12 +1,4 @@
-import {
-  MESSAGES,
-  LABELS,
-  FINGERPRINT_PARAMS,
-  REQUEST_MATCH_FIELDS,
-  REQUEST_MATCH_OPERATORS,
-  ADD_RULE_BUTTON_TEXT,
-  FINGERPRINT_TOOLTIPS,
-} from './config-variables.js';
+import { MESSAGES, LABELS, FINGERPRINT_PARAMS, ADD_RULE_BUTTON_TEXT } from './config-variables.js';
 import {
   createConditionFields,
   createOperator,
