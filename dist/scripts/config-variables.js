@@ -20,7 +20,7 @@ export const LOGICAL_OPERATORS = [
 
 export const CONDITION_TYPES = [
   { value: 'single', label: 'Single Condition' },
-  { value: 'group', label: 'Condition Group' },
+  { value: 'group', label: 'Nested Group' },
 ];
 export const MESSAGES = {
   CLIENT_IP_INCLUDED: 'Client IP is always included by default.',
