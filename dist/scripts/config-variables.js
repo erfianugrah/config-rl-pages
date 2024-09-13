@@ -13,7 +13,15 @@ export const LABELS = {
   CONDITION_OPERATOR: 'Operator:',
   CONDITION_VALUE: 'Value:',
 };
+export const LOGICAL_OPERATORS = [
+  { value: 'and', label: 'AND' },
+  { value: 'or', label: 'OR' },
+];
 
+export const CONDITION_TYPES = [
+  { value: 'single', label: 'Single Condition' },
+  { value: 'group', label: 'Condition Group' },
+];
 export const MESSAGES = {
   CLIENT_IP_INCLUDED: 'Client IP is always included by default.',
   CONFIG_SAVED: 'Configuration saved successfully!',
