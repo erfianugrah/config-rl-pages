@@ -634,6 +634,10 @@ video {
   margin-bottom: 1rem;
 }
 
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
 .mb-8 {
   margin-bottom: 2rem;
 }
@@ -690,6 +694,10 @@ video {
   min-height: 100vh;
 }
 
+.w-auto {
+  width: auto;
+}
+
 .w-full {
   width: 100%;
 }
@@ -730,6 +738,10 @@ video {
 
 .items-center {
   align-items: center;
+}
+
+.justify-end {
+  justify-content: flex-end;
 }
 
 .justify-center {
@@ -922,6 +934,10 @@ video {
 
 .pr-10 {
   padding-right: 2.5rem;
+}
+
+.pr-3 {
+  padding-right: 0.75rem;
 }
 
 .pt-6 {

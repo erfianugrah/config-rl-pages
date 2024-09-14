@@ -98,8 +98,11 @@ export function createRuleForm(rule = {}, editIndex = null) {
   // Populate request match conditions and groups
   const conditionsContainer = document.getElementById(`requestMatchConditions${ruleIndex}`);
   if (rule.requestMatch && rule.requestMatch.conditions) {
+    console.log('Populating conditions for rule:', ruleIndex);
     populateConditions(ruleIndex, rule.requestMatch.conditions, conditionsContainer);
   }
+
+  console.log('Rule form created:', ruleForm);
 
   // Populate form fields
   ruleForm.querySelector(`[name="rules[${ruleIndex}].name"]`).value = rule.name || '';
@@ -131,11 +134,22 @@ export function createRuleForm(rule = {}, editIndex = null) {
   console.log('Rule form created:', ruleForm);
 }
 
-function populateConditions(ruleIndex, conditions, container, groupIndex = null) {
-  console.log(`Populating conditions: ruleIndex=${ruleIndex}, groupIndex=${groupIndex}`);
-  console.log('Conditions:', conditions);
+export function populateConditions(ruleIndex, conditions, container, groupIndex = null) {
+  console.log(`Populating conditions for rule ${ruleIndex}, group ${groupIndex}:`, conditions);
+  console.log('Container:', container);
 
-  conditions.forEach((condition, index) => {
+  if (
+    !conditions ||
+    (Array.isArray(conditions) && conditions.length === 0) ||
+    Object.keys(conditions).length === 0
+  ) {
+    console.log('No conditions to populate');
+    return;
+  }
+
+  const conditionsArray = Array.isArray(conditions) ? conditions : Object.values(conditions);
+
+  conditionsArray.forEach((condition, index) => {
     console.log(`Processing condition ${index}:`, condition);
 
     if (index > 0) {
@@ -143,19 +157,21 @@ function populateConditions(ruleIndex, conditions, container, groupIndex = null)
         groupIndex !== null
           ? `rules[${ruleIndex}].requestMatch.conditions[${groupIndex}].conditions[${index - 1}]`
           : `rules[${ruleIndex}].requestMatch.conditions[${index - 1}]`,
-        condition.operator || 'and'
+        condition.operator
       );
       console.log(`Inserting operator HTML: ${operatorHtml}`);
       container.insertAdjacentHTML('beforeend', operatorHtml);
     }
 
     if (condition.type === 'group') {
+      console.log(`Creating condition group for rule ${ruleIndex}, index ${index}`);
       const groupHTML = createConditionGroup(ruleIndex, index, condition);
       console.log(`Inserting group HTML: ${groupHTML}`);
       container.insertAdjacentHTML('beforeend', groupHTML);
       const groupContainer = document.getElementById(`groupConditions${ruleIndex}_${index}`);
       populateConditions(ruleIndex, condition.conditions, groupContainer, index);
     } else {
+      console.log(`Creating condition field for rule ${ruleIndex}, index ${index}`);
       const conditionHTML = createConditionFields(
         ruleIndex,
         groupIndex !== null ? `${groupIndex}_${index}` : index,
@@ -167,7 +183,7 @@ function populateConditions(ruleIndex, conditions, container, groupIndex = null)
     }
   });
 
-  console.log('Finished populating conditions');
+  console.log(`Finished populating conditions for rule ${ruleIndex}, group ${groupIndex}`);
 }
 
 export function updateRuleModals() {

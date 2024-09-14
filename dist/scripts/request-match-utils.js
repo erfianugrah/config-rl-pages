@@ -13,7 +13,7 @@ export function createConditionFields(
     : `rules[${ruleIndex}].requestMatch.conditions[${conditionIndex}]`;
 
   return `
-    <div class="condition-field bg-gray-50 p-4 rounded-md shadow-sm mb-4" id="condition${ruleIndex}_${conditionIndex}">
+    <div class="condition-field bg-gray-50 p-4 rounded-md shadow-sm mb-6" id="condition${ruleIndex}_${conditionIndex}">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">${LABELS.CONDITION_FIELD}</label>
@@ -29,11 +29,11 @@ export function createConditionFields(
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">${LABELS.CONDITION_VALUE}</label>
-          <input class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" name="${namePrefix}.value" type="text" value="${condition.value || ''}" required>
+          <input class="mt-1 block w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" name="${namePrefix}.value" type="text" value="${condition.value || ''}" required>
         </div>
       </div>
       <div class="mt-4 text-right">
-        <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" onclick="removeCondition(${ruleIndex}, '${conditionIndex}')">
+        <button type="button" class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" onclick="removeCondition(${ruleIndex}, '${conditionIndex}')">
           Remove
         </button>
       </div>
@@ -43,8 +43,8 @@ export function createConditionFields(
 
 export function createOperator(namePrefix, selectedOperator = 'and') {
   return `
-    <div class="flex justify-center items-center my-4">
-      <select class="operator-select block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" name="${namePrefix}.operator">
+    <div class="flex justify-end items-center my-4">
+      <select class="operator-select w-auto px-3 py-1 text-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md" name="${namePrefix}.operator">
         <option value="and" ${selectedOperator === 'and' ? 'selected' : ''}>AND</option>
         <option value="or" ${selectedOperator === 'or' ? 'selected' : ''}>OR</option>
       </select>

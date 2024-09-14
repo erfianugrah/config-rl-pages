@@ -23,6 +23,9 @@ export function viewRule(rule) {
 }
 
 export function editRule(rule, index) {
+  console.log('Editing rule:', rule);
+  console.log('Rule index:', index);
+
   document.getElementById('ruleModals').classList.add('hidden');
   document.getElementById('addNewRule').classList.add('hidden');
   document.getElementById('configForm').classList.remove('hidden');
@@ -41,31 +44,29 @@ export function editRule(rule, index) {
 
   // Populate fingerprint parameters
   if (rule.fingerprint && rule.fingerprint.parameters) {
+    console.log('Populating fingerprint parameters:', rule.fingerprint.parameters);
     const fingerprintList = document.getElementById(`fingerprintList${index}`);
     fingerprintList.innerHTML = ''; // Clear existing parameters
     rule.fingerprint.parameters.forEach((param) => addToList(fingerprintList, param, index));
   }
 
-  // Populate request match conditions
+  // Populate request match conditions and nested groups
   if (rule.requestMatch && rule.requestMatch.conditions) {
+    console.log('Populating request match conditions:', rule.requestMatch.conditions);
     const conditionsContainer = document.getElementById(`requestMatchConditions${index}`);
-    rule.requestMatch.conditions.forEach((condition, conditionIndex) => {
-      addCondition(index);
-      const conditionFields = conditionsContainer.lastElementChild;
-      conditionFields.querySelector(
-        `[name="rules[${index}].requestMatch.conditions[${conditionIndex}].field"]`
-      ).value = condition.field;
-      conditionFields.querySelector(
-        `[name="rules[${index}].requestMatch.conditions[${conditionIndex}].operator"]`
-      ).value = condition.operator;
-      conditionFields.querySelector(
-        `[name="rules[${index}].requestMatch.conditions[${conditionIndex}].value"]`
-      ).value = condition.value;
-    });
+    conditionsContainer.innerHTML = ''; // Clear existing conditions
+
+    // Convert conditions object to array if necessary
+    const conditionsArray = Array.isArray(rule.requestMatch.conditions)
+      ? rule.requestMatch.conditions
+      : Object.values(rule.requestMatch.conditions);
+
+    populateConditions(index, conditionsArray, conditionsContainer);
   }
 
   // Populate action fields
   if (rule.action) {
+    console.log('Populating action fields:', rule.action);
     form.querySelector(`[name="rules[${index}].action.type"]`).value = rule.action.type;
     updateActionFields(index, rule.action.type);
     if (rule.action.type === 'customResponse') {
@@ -74,6 +75,8 @@ export function editRule(rule, index) {
       form.querySelector(`[name="rules[${index}].action.body"]`).value = rule.action.body;
     }
   }
+
+  console.log('Finished editing rule');
 }
 
 export function deleteRule(index) {
