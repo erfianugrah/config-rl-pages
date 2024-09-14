@@ -9,7 +9,7 @@ import {
   removeCondition,
   removeConditionGroup,
 } from './request-match-utils.js';
-import { addToList } from './fingerprint-utils.js';
+import { addToList, addFingerprint } from './fingerprint-utils.js';
 import { updateActionFields } from './action-utils.js';
 import { createRuleModal } from './rule-modal.js';
 import { saveConfiguration } from './config-saver.js';
@@ -78,19 +78,27 @@ export function createRuleForm(rule = {}, editIndex = null) {
       </select>
       <div id="actionFields${ruleIndex}"></div>
     </div>
-    <div class="mb-4">
-      <h4 class="text-md font-semibold mb-2">${LABELS.FINGERPRINT_PARAMS}</h4>
-      <div class="mb-4">
-        <p class="text-sm text-gray-600">${MESSAGES.CLIENT_IP_INCLUDED}</p>
-      </div>
-      <div>
-        <select id="fingerprintParam${ruleIndex}" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2">
-          ${FINGERPRINT_PARAMS.map((param) => `<option value="${param.value}">${param.label}</option>`).join('')}
-        </select>
-      </div>
-      <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onclick="addFingerprint(${ruleIndex})">Add</button>
-      <div id="fingerprintList${ruleIndex}" class="mt-4 p-2 border rounded min-h-[100px]"></div>
+<div class="mb-4">
+  <h4 class="text-md font-semibold mb-2">${LABELS.FINGERPRINT_PARAMS}</h4>
+  <p class="text-sm text-gray-600 mb-4">${MESSAGES.CLIENT_IP_INCLUDED}</p>
+  
+  <div class="flex items-end space-x-4 mb-4">
+    <div class="flex-grow">
+      <label class="block text-sm font-medium text-gray-700 mb-1">Parameter Type</label>
+      <select id="fingerprintParam${ruleIndex}" class="w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+        ${FINGERPRINT_PARAMS.map((param) => `<option value="${param.value}">${param.label}</option>`).join('')}
+      </select>
     </div>
+    <div id="fingerprintAdditionalFields${ruleIndex}" class="flex-grow">
+      <!-- Additional fields will be dynamically added here -->
+    </div>
+    <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onclick="addFingerprint(${ruleIndex})">
+      Add Parameter
+    </button>
+  </div>
+  
+  <div id="fingerprintList${ruleIndex}" class="mt-4 p-2 border rounded min-h-[100px]"></div>
+</div>
   `;
 
   document.getElementById('rulesContainer').appendChild(ruleForm);
@@ -101,6 +109,13 @@ export function createRuleForm(rule = {}, editIndex = null) {
     console.log('Populating conditions for rule:', ruleIndex);
     populateConditions(ruleIndex, rule.requestMatch.conditions, conditionsContainer);
   }
+
+  // Set up fingerprint parameter type change event
+  const fingerprintParamSelect = document.getElementById(`fingerprintParam${ruleIndex}`);
+  fingerprintParamSelect.addEventListener('change', () => updateFingerprintFields(ruleIndex));
+
+  // Initial update of fingerprint fields
+  updateFingerprintFields(ruleIndex);
 
   console.log('Rule form created:', ruleForm);
 
@@ -132,6 +147,42 @@ export function createRuleForm(rule = {}, editIndex = null) {
   }
 
   console.log('Rule form created:', ruleForm);
+}
+
+function updateFingerprintFields(ruleIndex) {
+  const selectedType = document.getElementById(`fingerprintParam${ruleIndex}`).value;
+  const additionalFieldsContainer = document.getElementById(
+    `fingerprintAdditionalFields${ruleIndex}`
+  );
+
+  let additionalFieldsHTML = '';
+
+  if (selectedType === 'headers.name' || selectedType === 'headers.nameValue') {
+    additionalFieldsHTML += `
+      <div class="mr-2">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Header Name</label>
+        <input type="text" id="headerName${ruleIndex}" class="w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+      </div>
+    `;
+
+    if (selectedType === 'headers.nameValue') {
+      additionalFieldsHTML += `
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Header Value</label>
+          <input type="text" id="headerValue${ruleIndex}" class="w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+        </div>
+      `;
+    }
+  } else if (selectedType === 'body.custom') {
+    additionalFieldsHTML += `
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Body Field (JSON path)</label>
+        <input type="text" id="bodyField${ruleIndex}" class="w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+      </div>
+    `;
+  }
+
+  additionalFieldsContainer.innerHTML = additionalFieldsHTML;
 }
 
 export function populateConditions(ruleIndex, conditions, container, groupIndex = null) {

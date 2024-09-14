@@ -107,7 +107,8 @@ const COMMON_FIELDS = [
 export const FINGERPRINT_PARAMS = [
   { value: 'method', label: 'HTTP Method' },
   { value: 'url', label: 'Full URL' },
-  { value: 'request.headers', label: 'Headers' },
+  { value: 'headers.name', label: 'Specific Header Value' },
+  { value: 'headers.nameValue', label: 'Header Name and Value Pair' },
   { value: 'body', label: 'Request Body' },
   { value: 'url.protocol', label: 'URL Protocol' },
   { value: 'url.hostname', label: 'URL Hostname' },
@@ -123,7 +124,8 @@ export const FINGERPRINT_PARAMS = [
 export const REQUEST_MATCH_FIELDS = [
   { value: 'method', label: 'HTTP Method' },
   { value: 'url', label: 'Full URL' },
-  { value: 'request.headers', label: 'Headers' },
+  { value: 'headers.name', label: 'Header Name' },
+  { value: 'headers.nameValue', label: 'Header Name and Value' },
   { value: 'body', label: 'Request Body' },
   { value: 'url.protocol', label: 'URL Protocol' },
   { value: 'url.hostname', label: 'URL Hostname' },

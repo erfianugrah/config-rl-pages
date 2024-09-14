@@ -1,9 +1,12 @@
+// global-functions.js
+
 import {
   addCondition,
   addConditionGroup,
   addConditionToGroup,
   removeCondition,
   removeConditionGroup,
+  updateConditionFields,
 } from './request-match-utils.js';
 import { updateRuleModals } from './rule-forms.js';
 import { addFingerprint } from './fingerprint-utils.js';
@@ -18,3 +21,4 @@ window.removeConditionGroup = removeConditionGroup;
 window.updateRuleModals = updateRuleModals;
 window.addFingerprint = addFingerprint;
 window.updateActionFields = updateActionFields;
+window.updateConditionFields = updateConditionFields;

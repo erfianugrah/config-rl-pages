@@ -12,12 +12,37 @@ export function createConditionFields(
     ? `rules[${ruleIndex}].requestMatch.conditions[${conditionIndex.split('_')[0]}].conditions[${conditionIndex.split('_')[1]}]`
     : `rules[${ruleIndex}].requestMatch.conditions[${conditionIndex}]`;
 
+  let fieldInputs = `
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">${LABELS.CONDITION_VALUE}</label>
+      <input class="mt-1 block w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" name="${namePrefix}.value" type="text" value="${condition.value || ''}" required>
+    </div>
+  `;
+
+  if (condition.field === 'headers.name' || condition.field === 'headers.nameValue') {
+    fieldInputs = `
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Header Name</label>
+        <input class="mt-1 block w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" name="${namePrefix}.headerName" type="text" value="${condition.headerName || ''}" required>
+      </div>
+    `;
+
+    if (condition.field === 'headers.nameValue') {
+      fieldInputs += `
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Header Value</label>
+          <input class="mt-1 block w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" name="${namePrefix}.headerValue" type="text" value="${condition.headerValue || ''}" required>
+        </div>
+      `;
+    }
+  }
+
   return `
     <div class="condition-field bg-gray-50 p-4 rounded-md shadow-sm mb-6" id="condition${ruleIndex}_${conditionIndex}">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">${LABELS.CONDITION_FIELD}</label>
-          <select class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" name="${namePrefix}.field" required>
+          <select class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" name="${namePrefix}.field" required onchange="updateConditionFields(this, ${ruleIndex}, '${conditionIndex}')">
             ${REQUEST_MATCH_FIELDS.map((field) => `<option value="${field.value}" ${condition.field === field.value ? 'selected' : ''}>${field.label}</option>`).join('')}
           </select>
         </div>
@@ -27,10 +52,7 @@ export function createConditionFields(
             ${REQUEST_MATCH_OPERATORS.map((op) => `<option value="${op.value}" ${condition.comparator === op.value ? 'selected' : ''}>${op.label}</option>`).join('')}
           </select>
         </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">${LABELS.CONDITION_VALUE}</label>
-          <input class="mt-1 block w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" name="${namePrefix}.value" type="text" value="${condition.value || ''}" required>
-        </div>
+        ${fieldInputs}
       </div>
       <div class="mt-4 text-right">
         <button type="button" class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" onclick="removeCondition(${ruleIndex}, '${conditionIndex}')">
@@ -39,6 +61,42 @@ export function createConditionFields(
       </div>
     </div>
   `;
+}
+
+export function updateConditionFields(selectElement, ruleIndex, conditionIndex) {
+  const selectedField = selectElement.value;
+  const conditionContainer = document.getElementById(`condition${ruleIndex}_${conditionIndex}`);
+  const namePrefix = conditionContainer
+    .querySelector('select[name$=".field"]')
+    .name.replace('.field', '');
+
+  let fieldInputs = `
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">${LABELS.CONDITION_VALUE}</label>
+      <input class="mt-1 block w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" name="${namePrefix}.value" type="text" required>
+    </div>
+  `;
+
+  if (selectedField === 'headers.name' || selectedField === 'headers.nameValue') {
+    fieldInputs = `
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Header Name</label>
+        <input class="mt-1 block w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" name="${namePrefix}.headerName" type="text" required>
+      </div>
+    `;
+
+    if (selectedField === 'headers.nameValue') {
+      fieldInputs += `
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Header Value</label>
+          <input class="mt-1 block w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" name="${namePrefix}.headerValue" type="text" required>
+        </div>
+      `;
+    }
+  }
+
+  const valueContainer = conditionContainer.querySelector('.grid').lastElementChild;
+  valueContainer.innerHTML = fieldInputs;
 }
 
 export function createOperator(namePrefix, selectedOperator = 'and') {
