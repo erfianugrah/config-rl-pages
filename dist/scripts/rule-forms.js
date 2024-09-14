@@ -17,7 +17,15 @@ import { saveConfiguration } from './config-saver.js';
 export function createRuleForm(rule = {}, editIndex = null) {
   console.log('Creating rule form:', rule);
   const ruleIndex = editIndex !== null ? editIndex : window.currentRules.length;
+  // Ensure rateLimit object exists
+  if (!rule.rateLimit) {
+    rule.rateLimit = { limit: '', period: '' };
+  }
 
+  // Ensure action object exists
+  if (!rule.action) {
+    rule.action = { type: 'rateLimit' };
+  }
   const ruleForm = document.createElement('div');
   ruleForm.className = 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4';
   ruleForm.setAttribute('data-id', ruleIndex);
@@ -273,7 +281,13 @@ export function updateRuleModals() {
 function serializeRuleForm(form) {
   console.log('Serializing rule form');
   const formData = new FormData(form);
-  const rule = {};
+  const rule = {
+    rateLimit: {},
+    action: {},
+    fingerprint: { parameters: [] },
+    requestMatch: { conditions: [] },
+  };
+
   formData.forEach((value, key) => {
     const match = key.match(/rules\[(\d+)\]\.(.+)/);
     if (match) {
@@ -282,7 +296,11 @@ function serializeRuleForm(form) {
       let current = rule;
       keys.forEach((keyPart, i) => {
         if (i === keys.length - 1) {
-          current[keyPart] = value;
+          if (keyPart === 'parameters[]') {
+            current.parameters.push(value);
+          } else {
+            current[keyPart] = value;
+          }
         } else {
           current[keyPart] = current[keyPart] || {};
           current = current[keyPart];
@@ -290,6 +308,14 @@ function serializeRuleForm(form) {
       });
     }
   });
+
+  // Convert numeric values
+  rule.rateLimit.limit = Number(rule.rateLimit.limit);
+  rule.rateLimit.period = Number(rule.rateLimit.period);
+  if (rule.action.type === 'customResponse') {
+    rule.action.statusCode = Number(rule.action.statusCode);
+  }
+
   console.log('Serialized rule:', rule);
   return rule;
 }
