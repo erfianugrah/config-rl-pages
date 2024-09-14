@@ -23,6 +23,8 @@ export function addFingerprint(ruleIndex) {
       return;
     }
     fingerprintValue = `headers.nameValue:${headerName}:${headerValue}`;
+  } else if (selectedValue === 'body') {
+    fingerprintValue = 'body';
   } else if (selectedValue === 'body.custom') {
     const bodyField = document.getElementById(`bodyField${ruleIndex}`).value;
     if (!bodyField) {

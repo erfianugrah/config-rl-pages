@@ -67,38 +67,50 @@ export function createRuleForm(rule = {}, editIndex = null) {
         </button>
       </div>
     </div>
-    <div class="mb-4">
-      <h4 class="text-md font-semibold mb-2">Action</h4>
-      <select id="actionType${ruleIndex}" name="rules[${ruleIndex}].action.type" class="form-select mb-2" onchange="updateActionFields(${ruleIndex})">
-        <option value="log" ${rule.action?.type === 'log' ? 'selected' : ''}>Log</option>
-        <option value="simulate" ${rule.action?.type === 'simulate' ? 'selected' : ''}>Simulate</option>
-        <option value="block" ${rule.action?.type === 'block' ? 'selected' : ''}>Block (403)</option>
-        <option value="rateLimit" ${rule.action?.type === 'rateLimit' ? 'selected' : ''}>Rate Limit (429)</option>
-        <option value="customResponse" ${rule.action?.type === 'customResponse' ? 'selected' : ''}>Custom JSON Response</option>
-      </select>
-      <div id="actionFields${ruleIndex}"></div>
+  <div class="mb-6">
+    <h4 class="text-md font-semibold mb-2">Action</h4>
+    <div class="inline-block bg-gray-50 p-4 rounded-md shadow-sm">
+      <div class="mb-4 max-w-md">
+        <label class="block text-sm font-medium text-gray-700 mb-1" for="actionType${ruleIndex}">
+          Action Type
+        </label>
+        <select id="actionType${ruleIndex}" name="rules[${ruleIndex}].action.type" 
+                class="w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-sm"
+                onchange="updateActionFields(${ruleIndex})">
+          <option value="log" ${rule.action?.type === 'log' ? 'selected' : ''}>Log</option>
+          <option value="simulate" ${rule.action?.type === 'simulate' ? 'selected' : ''}>Simulate</option>
+          <option value="block" ${rule.action?.type === 'block' ? 'selected' : ''}>Block (403)</option>
+          <option value="rateLimit" ${rule.action?.type === 'rateLimit' ? 'selected' : ''}>Rate Limit (429)</option>
+          <option value="customResponse" ${rule.action?.type === 'customResponse' ? 'selected' : ''}>Custom JSON Response</option>
+        </select>
+      </div>
+      <div id="actionFields${ruleIndex}" class="space-y-4">
+        <!-- Additional action fields will be dynamically added here -->
+      </div>
     </div>
-<div class="mb-4">
-  <h4 class="text-md font-semibold mb-2">${LABELS.FINGERPRINT_PARAMS}</h4>
-  <p class="text-sm text-gray-600 mb-4">${MESSAGES.CLIENT_IP_INCLUDED}</p>
-  
-  <div class="flex items-end space-x-4 mb-4">
-    <div class="flex-grow">
-      <label class="block text-sm font-medium text-gray-700 mb-1">Parameter Type</label>
-      <select id="fingerprintParam${ruleIndex}" class="w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-        ${FINGERPRINT_PARAMS.map((param) => `<option value="${param.value}">${param.label}</option>`).join('')}
-      </select>
-    </div>
-    <div id="fingerprintAdditionalFields${ruleIndex}" class="flex-grow">
-      <!-- Additional fields will be dynamically added here -->
-    </div>
-    <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onclick="addFingerprint(${ruleIndex})">
-      Add Parameter
-    </button>
   </div>
-  
-  <div id="fingerprintList${ruleIndex}" class="mt-4 p-2 border rounded min-h-[100px]"></div>
-</div>
+  <div class="mb-6">
+    <h4 class="text-md font-semibold mb-2">${LABELS.FINGERPRINT_PARAMS}</h4>
+    <p class="text-sm text-gray-600 mb-4">${MESSAGES.CLIENT_IP_INCLUDED}</p>
+    
+    <div class="bg-gray-50 p-4 rounded-md shadow-sm">
+      <div class="flex flex-wrap items-end space-x-4 mb-4">
+        <div class="flex-grow max-w-md">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Parameter Type</label>
+          <select id="fingerprintParam${ruleIndex}" class="w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-sm" onchange="updateFingerprintFields(${ruleIndex})">
+            ${FINGERPRINT_PARAMS.map((param) => `<option value="${param.value}">${param.label}</option>`).join('')}
+          </select>
+        </div>
+        <div id="fingerprintAdditionalFields${ruleIndex}" class="flex-grow">
+          <!-- Additional fields will be dynamically added here -->
+        </div>
+        <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline shadow-md" onclick="addFingerprint(${ruleIndex})">
+          Add Parameter
+        </button>
+      </div>
+      <div id="fingerprintList${ruleIndex}" class="mt-4 p-2 border rounded min-h-[100px] shadow-inner bg-white"></div>
+    </div>
+  </div>
   `;
 
   document.getElementById('rulesContainer').appendChild(ruleForm);
@@ -157,27 +169,35 @@ function updateFingerprintFields(ruleIndex) {
 
   let additionalFieldsHTML = '';
 
+  const inputClasses =
+    'w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-sm bg-white';
+
   if (selectedType === 'headers.name' || selectedType === 'headers.nameValue') {
     additionalFieldsHTML += `
-      <div class="mr-2">
-        <label class="block text-sm font-medium text-gray-700 mb-1">Header Name</label>
-        <input type="text" id="headerName${ruleIndex}" class="w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-      </div>
+      <div class="flex space-x-2">
+        <div class="flex-grow">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Header Name</label>
+          <input type="text" id="headerName${ruleIndex}" class="${inputClasses}">
+        </div>
     `;
 
     if (selectedType === 'headers.nameValue') {
       additionalFieldsHTML += `
-        <div>
+        <div class="flex-grow">
           <label class="block text-sm font-medium text-gray-700 mb-1">Header Value</label>
-          <input type="text" id="headerValue${ruleIndex}" class="w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+          <input type="text" id="headerValue${ruleIndex}" class="${inputClasses}">
         </div>
       `;
     }
-  } else if (selectedType === 'body.custom') {
+
+    additionalFieldsHTML += `</div>`;
+  } else if (selectedType === 'body' || selectedType === 'body.custom') {
     additionalFieldsHTML += `
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Body Field (JSON path)</label>
-        <input type="text" id="bodyField${ruleIndex}" class="w-full pl-3 pr-3 py-2 text-base border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+        <label class="block text-sm font-medium text-gray-700 mb-1">
+          ${selectedType === 'body' ? 'Request Body' : 'Body Field (JSON path)'}
+        </label>
+        <input type="text" id="bodyField${ruleIndex}" class="${inputClasses}">
       </div>
     `;
   }
