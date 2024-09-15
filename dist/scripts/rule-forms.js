@@ -99,8 +99,6 @@ export function createRuleForm(rule = {}, editIndex = null) {
   </div>
   <div class="mb-6">
     <h4 class="text-md font-semibold mb-2">${LABELS.FINGERPRINT_PARAMS}</h4>
-    <p class="text-sm text-gray-600 mb-4">${MESSAGES.CLIENT_IP_INCLUDED}</p>
-    
     <div class="bg-gray-50 p-4 rounded-md shadow-sm">
       <div class="flex flex-wrap items-end space-x-4 mb-4">
         <div class="flex-grow max-w-md">
