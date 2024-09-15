@@ -23,7 +23,7 @@ export const CONDITION_TYPES = [
   { value: 'group', label: 'Nested Group' },
 ];
 export const MESSAGES = {
-  CLIENT_IP_INCLUDED: 'Client IP is always included by default.',
+  // CLIENT_IP_INCLUDED: 'Client IP is always included by default.',
   CONFIG_SAVED: 'Configuration saved successfully!',
   SAVE_ERROR: 'Error: ',
   LOAD_ERROR: 'Error loading configuration',
@@ -105,6 +105,7 @@ const COMMON_FIELDS = [
 ];
 
 export const FINGERPRINT_PARAMS = [
+  { value: 'clientIP', label: 'Client IP (supports CIDR)' },
   { value: 'method', label: 'HTTP Method' },
   { value: 'url', label: 'Full URL' },
   { value: 'headers.name', label: 'Specific Header Value' },
@@ -123,6 +124,7 @@ export const FINGERPRINT_PARAMS = [
 ];
 
 export const REQUEST_MATCH_FIELDS = [
+  { value: 'clientIP', label: 'Client IP (supports CIDR)' },
   { value: 'method', label: 'HTTP Method' },
   { value: 'url', label: 'Full URL' },
   { value: 'headers.name', label: 'Header Name' },
